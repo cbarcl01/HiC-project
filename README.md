@@ -1,4 +1,8 @@
-# BIOF501-project
+----
+output: github_document
+----
+
+# BIOF501-project: A chromosome scale assembly using SALSA2 with additional QC steps.
 
 ## Instructions
 
@@ -42,12 +46,40 @@ In this pipeline we aim to reduce the numebr of scaffolds for the current refere
 
 ## 2. Getting Started
 
-### 2.1 
+### 2.1 Dependencies
+
+You will require Miniconda and git to run this pipeline. This pipeline has been prepared for a linux terminal in BASH. 
+
+Please note that SALSA2 is a tool in development and therefore you will need to use the specified versions for Python, BOOST libraries and Networkx. For more information on the tool itself, as well as additional functionality, please see the github repository for [SALSA2](https://github.com/marbl/SALSA).
+
+**Clone repository**
+
+Please use the following shell command to clone the repository:
+
 ```
 git clone https://github.com/cbarcl01/BIOF501-project.git
 ```
 
+**Conda Environment**
 
-## Datasets
+Generate a conda environment with the relevant dependencies by using the `environment.yml` file in this repository. The first line of the .yml file sets the environment's name, you can amend this as needed.
 
-This 
+```
+conda env create -f  environment.yml
+```
+
+### 2.2 Get Data
+
+Download existing reference assembly using wget and unzip
+
+```
+wget https://research.nhgri.nih.gov/mnemiopsis/download/genome/MlScaffold09.nt.gz
+gzip -d ./MlScaffold09.nt
+```
+
+
+## 3. Usage
+
+### 3.1 DAG
+
+### 3.2 Run pipeline

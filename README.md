@@ -1,38 +1,36 @@
-----
-output: github_document
-----
 
 # BIOF501-project: A chromosome scale assembly using SALSA2 with additional QC steps.
 
-## Instructions
+### Instructions
 
-The student will identify a dataset and develop a workflow that allows a third party to interrogate the
-dataset. The workflow must be created as a pipeline using Snakemake or NextFlow and requires
-that the student create a Standard Operating Procedure that documents the usage of the workflow.
+The student will identify a dataset and develop a workflow that allows a third party to interrogate the dataset. The workflow must be created as a pipeline using Snakemake or NextFlow and requires that the student create a Standard Operating Procedure that documents the usage of the workflow.
 The workflow must include visualisations so that the results can be easily interpreted.
+
 As part of your project, you must:
-◦ Describe the dataset, providing full accession details, number of individuals in the cohort, type of
+
+- Describe the dataset, providing full accession details, number of individuals in the cohort, type of
 data (DNA, RNA, methylation, etc) and other relevant metadata
-◦ Some tools may accept several datasets or types (be specific and document flexibility)
-◦ Clearly define your control and test groups
-◦ Clearly state your hypothesis, aims and objectives
-◦ Clearly describe your environment (python version, snakemake version, package versions, etc)
+- Some tools may accept several datasets or types (be specific and document flexibility)
+- Clearly define your control and test groups
+- Clearly state your hypothesis, aims and objectives
+- Clearly describe your environment (python version, snakemake version, package versions, etc)
 
 The Standard Operating Procedure (SOP) must provide details
 on:
-◦ Information about the pipeline and what it aims to do
-◦ Expected results
-◦ Usage instructions so that another person can replicate
+
+- Information about the pipeline and what it aims to do
+- Expected results
+- Usage instructions so that another person can replicate
 your results
-◦ The setup of the environment as well as package versions
+- The setup of the environment as well as package versions
 so that it can be replicated easily
-◦ Information about the data used in the analysis (source,
+- Information about the data used in the analysis (source,
 accession date, number of samples, disease status, etc.)
-◦ Any accessory programs that will be called from snakemake
+- Any accessory programs that will be called from snakemake
 (including version numbers)
 
 
-## 1. Background and rationale
+### 1. Background and rationale
 
 Importance of chromosome scale assembly.
 
@@ -44,9 +42,9 @@ In this pipeline we aim to reduce the numebr of scaffolds for the current refere
 
 **Aim**: To improve reference genome for *Mnemiopsis leidyi* by reducing number of scaffolds and move towards a chromosome-scale assembly.
 
-## 2. Getting Started
+### 2. Getting Started
 
-### 2.1 Dependencies & Environment setup
+#### 2.1 Dependencies & Environment setup
 
 You will require Miniconda and git to run this pipeline. This pipeline has been prepared for a linux terminal in BASH. 
 
@@ -82,29 +80,35 @@ To get started, activate the initial environment with the following code. The sa
 conda activate biof501env
 ```
 
-### 2.2 Get Data
+#### 2.2 Data
 
-Download existing reference assembly using wget and unzip
+**Download data**
 
-```
-wget https://research.nhgri.nih.gov/mnemiopsis/download/genome/MlScaffold09.nt.gz
-gzip -d ./MlScaffold09.nt
-```
+An existing assembly and HiC data are required to run this pipeline. The data will be downloaded and unzipped as part of the pipeline, however the links are also included below. The HiC data used to test this pipeline was collected in the  Plotkin lab, as part of a masters research project and therefore has not been added to any accession/database yet.
 
-Download HiC data
 
-```
-wget https://www.dropbox.com/s/tnnhxz3bsccgjbn/plotkin-mle_S3HiC_R1.fastq.gz
-wget https://www.dropbox.com/s/tnnhxz3bsccgjbn/plotkin-mle_S3HiC_R2.fastq.gz
+|**Filename**    |**Description of file** |**Link to data** | 
+|:----------- | :----------- | :----------- |
+| MlScaffold09.nt  | Draft reference assembly file  | [download](https://research.nhgri.nih.gov/mnemiopsis/download/genome/MlScaffold09.nt.gz) | 
+| plotkin-mle_S3HiC_R1.fastq.gz   | Forward read for HiC | [download](https://www.dropbox.com/s/tnnhxz3bsccgjbn/plotkin-mle_S3HiC_R1.fastq.gz) | 
+| plotkin-mle_S3HiC_R2.fastq.gz   | Reverse read for HiC | [download](https://www.dropbox.com/s/tnnhxz3bsccgjbn/plotkin-mle_S3HiC_R2.fastq.gz) | 
 
-```
 
-## 3. Usage
+### 3. Usage
 
-### 3.1 DAG
+Description of pipeline process
 
-**Pipeline**
+#### 3.1 DAG
 
+
+
+#### 3.2 Run pipeline
+
+
+### 3.3 Test results
+
+
+**Alignment output**
 
 69789521 reads; of these:
   69789521 (100.00%) were paired; of these:
@@ -123,9 +127,5 @@ wget https://www.dropbox.com/s/tnnhxz3bsccgjbn/plotkin-mle_S3HiC_R2.fastq.gz
 31.16% overall alignment rate
 
 
-### 3.1 DAG
-
-### 3.2 Run pipeline
-
-## References
+#### References
 

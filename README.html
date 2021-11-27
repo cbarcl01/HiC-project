@@ -348,55 +348,103 @@ pre code {
 </div>
 
 
-<table>
-<tbody>
-<tr class="odd">
-<td>output: github_document</td>
-</tr>
-</tbody>
-</table>
 <div id="biof501-project-a-chromosome-scale-assembly-using-salsa2-with-additional-qc-steps." class="section level1">
 <h1>BIOF501-project: A chromosome scale assembly using SALSA2 with additional QC steps.</h1>
-<div id="instructions" class="section level2">
-<h2>Instructions</h2>
-<p>The student will identify a dataset and develop a workflow that allows a third party to interrogate the dataset. The workflow must be created as a pipeline using Snakemake or NextFlow and requires that the student create a Standard Operating Procedure that documents the usage of the workflow. The workflow must include visualisations so that the results can be easily interpreted. As part of your project, you must: ◦ Describe the dataset, providing full accession details, number of individuals in the cohort, type of data (DNA, RNA, methylation, etc) and other relevant metadata ◦ Some tools may accept several datasets or types (be specific and document flexibility) ◦ Clearly define your control and test groups ◦ Clearly state your hypothesis, aims and objectives ◦ Clearly describe your environment (python version, snakemake version, package versions, etc)</p>
-<p>The Standard Operating Procedure (SOP) must provide details on: ◦ Information about the pipeline and what it aims to do ◦ Expected results ◦ Usage instructions so that another person can replicate your results ◦ The setup of the environment as well as package versions so that it can be replicated easily ◦ Information about the data used in the analysis (source, accession date, number of samples, disease status, etc.) ◦ Any accessory programs that will be called from snakemake (including version numbers)</p>
+<div id="instructions" class="section level3">
+<h3>Instructions</h3>
+<p>The student will identify a dataset and develop a workflow that allows a third party to interrogate the dataset. The workflow must be created as a pipeline using Snakemake or NextFlow and requires that the student create a Standard Operating Procedure that documents the usage of the workflow. The workflow must include visualisations so that the results can be easily interpreted.</p>
+<p>As part of your project, you must:</p>
+<ul>
+<li>Describe the dataset, providing full accession details, number of individuals in the cohort, type of data (DNA, RNA, methylation, etc) and other relevant metadata</li>
+<li>Some tools may accept several datasets or types (be specific and document flexibility)</li>
+<li>Clearly define your control and test groups</li>
+<li>Clearly state your hypothesis, aims and objectives</li>
+<li>Clearly describe your environment (python version, snakemake version, package versions, etc)</li>
+</ul>
+<p>The Standard Operating Procedure (SOP) must provide details on:</p>
+<ul>
+<li>Information about the pipeline and what it aims to do</li>
+<li>Expected results</li>
+<li>Usage instructions so that another person can replicate your results</li>
+<li>The setup of the environment as well as package versions so that it can be replicated easily</li>
+<li>Information about the data used in the analysis (source, accession date, number of samples, disease status, etc.)</li>
+<li>Any accessory programs that will be called from snakemake (including version numbers)</li>
+</ul>
 </div>
-<div id="background-and-rationale" class="section level2">
-<h2>1. Background and rationale</h2>
+<div id="background-and-rationale" class="section level3">
+<h3>1. Background and rationale</h3>
 <p>Importance of chromosome scale assembly.</p>
 <p>SALSA2 is a tool for chromosome scale assembly. Uses Hi-C data.</p>
 <p>What is HiC data and how is it generated.</p>
 <p>In this pipeline we aim to reduce the numebr of scaffolds for the current reference genome of the model organism <em>Mnemiopsis leidyi</em>.This organism is well placed phylogenetically as the sister group to all other metazoa and further understanding of it’s genome can elucidate information around genome evolution, cell differentiation and conserved gene regulatory networks that are required for multicellularity.</p>
 <p><strong>Aim</strong>: To improve reference genome for <em>Mnemiopsis leidyi</em> by reducing number of scaffolds and move towards a chromosome-scale assembly.</p>
 </div>
-<div id="getting-started" class="section level2">
-<h2>2. Getting Started</h2>
-<div id="dependencies" class="section level3">
-<h3>2.1 Dependencies</h3>
+<div id="getting-started" class="section level3">
+<h3>2. Getting Started</h3>
+<div id="dependencies-environment-setup" class="section level4">
+<h4>2.1 Dependencies &amp; Environment setup</h4>
 <p>You will require Miniconda and git to run this pipeline. This pipeline has been prepared for a linux terminal in BASH.</p>
 <p>Please note that SALSA2 is a tool in development and therefore you will need to use the specified versions for Python, BOOST libraries and Networkx. For more information on the tool itself, as well as additional functionality, please see the github repository for <a href="https://github.com/marbl/SALSA">SALSA2</a>.</p>
 <p><strong>Clone repository</strong></p>
 <p>Please use the following shell command to clone the repository:</p>
 <pre><code>git clone https://github.com/cbarcl01/BIOF501-project.git</code></pre>
-<p><strong>Conda Environment</strong></p>
-<p>Generate a conda environment with the relevant dependencies by using the <code>environment.yml</code> file in this repository. The first line of the .yml file sets the environment’s name, you can amend this as needed.</p>
-<pre><code>conda env create -f  environment.yml</code></pre>
+<p><strong>Create Conda Environment</strong></p>
+<p>To run the pipeline, first create a conda environment with the relevant dependencies by using the <code>biof501env.yml</code> file in the <code>envs</code> subdirectory of this repository. The first line of the .yml file sets the environment’s name, you can amend this as needed.</p>
+<pre><code>conda env create -f  envs/biof501env.yml</code></pre>
+<p>Due to conflicting versions of python required for different rules, we need to create an additional environment to run the final part of the pipeline for the salsa_scaffold rule. In Snakemake 3.9.0 you can define isolated software environments per rule, so please ensure you are using the most recent version. See <a href="https://snakemake.readthedocs.io/en/stable/snakefiles/deployment.html#integrated-package-management">Integrated Package Management</a> of the snakemake documentation for more information. To create this environment please use the</p>
+<pre><code>conda env create -f  envs/salsaEnvironment.yml</code></pre>
+<p><strong>Create Conda Environment</strong></p>
+<p>To get started, activate the initial environment with the following code. The salsa environment does not need to be activated as this is referred to within the pipeline.</p>
+<pre><code>conda activate biof501env</code></pre>
 </div>
-<div id="get-data" class="section level3">
-<h3>2.2 Get Data</h3>
-<p>Download existing reference assembly using wget and unzip</p>
-<pre><code>wget https://research.nhgri.nih.gov/mnemiopsis/download/genome/MlScaffold09.nt.gz
-gzip -d ./MlScaffold09.nt</code></pre>
+<div id="data" class="section level4">
+<h4>2.2 Data</h4>
+<p><strong>Download data</strong></p>
+<p>An existing assembly and HiC data are required to run this pipeline. The data will be downloaded and unzipped as part of the pipeline, however the links are also included below. The HiC data used to test this pipeline was collected in the Plotkin lab, as part of a masters research project and therefore has not been added to any accession/database yet.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><strong>Filename</strong></th>
+<th align="left"><strong>Description of file</strong></th>
+<th align="left"><strong>Link to data</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">MlScaffold09.nt</td>
+<td align="left">Draft reference assembly file</td>
+<td align="left"><a href="https://research.nhgri.nih.gov/mnemiopsis/download/genome/MlScaffold09.nt.gz">download</a></td>
+</tr>
+<tr class="even">
+<td align="left">plotkin-mle_S3HiC_R1.fastq.gz</td>
+<td align="left">Forward read for HiC</td>
+<td align="left"><a href="https://www.dropbox.com/s/tnnhxz3bsccgjbn/plotkin-mle_S3HiC_R1.fastq.gz">download</a></td>
+</tr>
+<tr class="odd">
+<td align="left">plotkin-mle_S3HiC_R2.fastq.gz</td>
+<td align="left">Reverse read for HiC</td>
+<td align="left"><a href="https://www.dropbox.com/s/tnnhxz3bsccgjbn/plotkin-mle_S3HiC_R2.fastq.gz">download</a></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
-<div id="usage" class="section level2">
-<h2>3. Usage</h2>
-<div id="dag" class="section level3">
-<h3>3.1 DAG</h3>
+<div id="usage" class="section level3">
+<h3>3. Usage</h3>
+<p>Description of pipeline process</p>
+<div id="dag" class="section level4">
+<h4>3.1 DAG</h4>
 </div>
-<div id="run-pipeline" class="section level3">
-<h3>3.2 Run pipeline</h3>
+<div id="run-pipeline" class="section level4">
+<h4>3.2 Run pipeline</h4>
+</div>
+</div>
+<div id="test-results" class="section level3">
+<h3>3.3 Test results</h3>
+<p><strong>Alignment output</strong></p>
+<p>69789521 reads; of these: 69789521 (100.00%) were paired; of these: 69690487 (99.86%) aligned concordantly 0 times 66548 (0.10%) aligned concordantly exactly 1 time 32486 (0.05%) aligned concordantly &gt;1 times —- 69690487 pairs aligned concordantly 0 times; of these: 66086 (0.09%) aligned discordantly 1 time —- 69624401 pairs aligned 0 times concordantly or discordantly; of these: 139248802 mates make up the pairs; of these: 96080762 (69.00%) aligned 0 times 27925732 (20.05%) aligned exactly 1 time 15242308 (10.95%) aligned &gt;1 times 31.16% overall alignment rate</p>
+<div id="references" class="section level4">
+<h4>References</h4>
 </div>
 </div>
 </div>

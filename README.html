@@ -348,8 +348,15 @@ pre code {
 </div>
 
 
-<div id="biof501-project" class="section level1">
-<h1>BIOF501-project</h1>
+<table>
+<tbody>
+<tr class="odd">
+<td>output: github_document</td>
+</tr>
+</tbody>
+</table>
+<div id="biof501-project-a-chromosome-scale-assembly-using-salsa2-with-additional-qc-steps." class="section level1">
+<h1>BIOF501-project: A chromosome scale assembly using SALSA2 with additional QC steps.</h1>
 <div id="instructions" class="section level2">
 <h2>Instructions</h2>
 <p>The student will identify a dataset and develop a workflow that allows a third party to interrogate the dataset. The workflow must be created as a pipeline using Snakemake or NextFlow and requires that the student create a Standard Operating Procedure that documents the usage of the workflow. The workflow must include visualisations so that the results can be easily interpreted. As part of your project, you must: ◦ Describe the dataset, providing full accession details, number of individuals in the cohort, type of data (DNA, RNA, methylation, etc) and other relevant metadata ◦ Some tools may accept several datasets or types (be specific and document flexibility) ◦ Clearly define your control and test groups ◦ Clearly state your hypothesis, aims and objectives ◦ Clearly describe your environment (python version, snakemake version, package versions, etc)</p>
@@ -360,19 +367,37 @@ pre code {
 <p>Importance of chromosome scale assembly.</p>
 <p>SALSA2 is a tool for chromosome scale assembly. Uses Hi-C data.</p>
 <p>What is HiC data and how is it generated.</p>
-<p>In this pipeline we aim to reduce the numebr of scaffolds for the current reference genome of the model organism <strong>Mnemiopsis leidyi</strong>.This organism is well placed phylogenetically as the sister group to all other metazoa and further understanding of it’s genome can elucidate information around genome evolution, cell differentiation and conserved gene regulatory networks that are required for multicellularity.</p>
-<p>Aim: To improve reference genome for Mnemiopsis leidyi by reducing number of scaffolds and move towards a chromosome-scale assembly.</p>
+<p>In this pipeline we aim to reduce the numebr of scaffolds for the current reference genome of the model organism <em>Mnemiopsis leidyi</em>.This organism is well placed phylogenetically as the sister group to all other metazoa and further understanding of it’s genome can elucidate information around genome evolution, cell differentiation and conserved gene regulatory networks that are required for multicellularity.</p>
+<p><strong>Aim</strong>: To improve reference genome for <em>Mnemiopsis leidyi</em> by reducing number of scaffolds and move towards a chromosome-scale assembly.</p>
 </div>
 <div id="getting-started" class="section level2">
 <h2>2. Getting Started</h2>
-<div id="section" class="section level3">
-<h3>2.1</h3>
+<div id="dependencies" class="section level3">
+<h3>2.1 Dependencies</h3>
+<p>You will require Miniconda and git to run this pipeline. This pipeline has been prepared for a linux terminal in BASH.</p>
+<p>Please note that SALSA2 is a tool in development and therefore you will need to use the specified versions for Python, BOOST libraries and Networkx. For more information on the tool itself, as well as additional functionality, please see the github repository for <a href="https://github.com/marbl/SALSA">SALSA2</a>.</p>
+<p><strong>Clone repository</strong></p>
+<p>Please use the following shell command to clone the repository:</p>
 <pre><code>git clone https://github.com/cbarcl01/BIOF501-project.git</code></pre>
+<p><strong>Conda Environment</strong></p>
+<p>Generate a conda environment with the relevant dependencies by using the <code>environment.yml</code> file in this repository. The first line of the .yml file sets the environment’s name, you can amend this as needed.</p>
+<pre><code>conda env create -f  environment.yml</code></pre>
+</div>
+<div id="get-data" class="section level3">
+<h3>2.2 Get Data</h3>
+<p>Download existing reference assembly using wget and unzip</p>
+<pre><code>wget https://research.nhgri.nih.gov/mnemiopsis/download/genome/MlScaffold09.nt.gz
+gzip -d ./MlScaffold09.nt</code></pre>
 </div>
 </div>
-<div id="datasets" class="section level2">
-<h2>Datasets</h2>
-<p>This</p>
+<div id="usage" class="section level2">
+<h2>3. Usage</h2>
+<div id="dag" class="section level3">
+<h3>3.1 DAG</h3>
+</div>
+<div id="run-pipeline" class="section level3">
+<h3>3.2 Run pipeline</h3>
+</div>
 </div>
 </div>
 

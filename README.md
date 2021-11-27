@@ -68,6 +68,8 @@ Generate a conda environment with the relevant dependencies by using the `enviro
 conda env create -f  environment.yml
 ```
 
+
+
 ### 2.2 Get Data
 
 Download existing reference assembly using wget and unzip
@@ -77,8 +79,80 @@ wget https://research.nhgri.nih.gov/mnemiopsis/download/genome/MlScaffold09.nt.g
 gzip -d ./MlScaffold09.nt
 ```
 
+Download HiC data
+
+```
+wget https://www.dropbox.com/s/tnnhxz3bsccgjbn/plotkin-mle_S3HiC_R1.fastq.gz
+wget https://www.dropbox.com/s/tnnhxz3bsccgjbn/plotkin-mle_S3HiC_R2.fastq.gz
+
+```
 
 ## 3. Usage
+
+**Pipeline**
+
+Build index
+
+```
+bowtie2-build -f ./rawdata/MlScaffold09.nt ./index/mleindex
+
+```
+
+Align HiC to index
+
+```
+bowtie2 -x ./index/mleindex2 \ -p 8 -1 ./rawdata/plotkin-mle_S3HiC_R1.fastq \ -2 ./rawdata/plotkin-mle_S3HiC_R2.fastq \ -S ./hic.sam
+```
+
+
+69789521 reads; of these:
+  69789521 (100.00%) were paired; of these:
+    69690487 (99.86%) aligned concordantly 0 times
+    66548 (0.10%) aligned concordantly exactly 1 time
+    32486 (0.05%) aligned concordantly >1 times
+    ----
+    69690487 pairs aligned concordantly 0 times; of these:
+      66086 (0.09%) aligned discordantly 1 time
+    ----
+    69624401 pairs aligned 0 times concordantly or discordantly; of these:
+      139248802 mates make up the pairs; of these:
+        96080762 (69.00%) aligned 0 times
+        27925732 (20.05%) aligned exactly 1 time
+        15242308 (10.95%) aligned >1 times
+31.16% overall alignment rate
+
+
+Sam to bed
+
+```
+samtools view -S -b -h hic.sam > hic.bam
+```
+
+
+Bam to bed
+
+```
+bamToBed -i hic.bam > hic.bed 
+
+
+Generate contigs length
+
+```
+samtools faidx ./rawdata/MlScaffold09.nt 
+```
+Sort
+
+```
+sortBed -faidx ./rawdata/MlScaffold09.nt.fai  -i hic.bed
+OR
+sort -k 4 hic.bed > tmp && mv tmp hic.bed
+```
+
+Run SALSA2 scaffolding
+
+```
+python /miniconda3/envs/condahic/bin/run_pipeline.py -a MlScaffold09.nt -l MlScaffold09.nt.fai -b hic.bed -e GANTC,TTAA,CTNAG,GATC -o scaffolds -m yes
+```
 
 ### 3.1 DAG
 

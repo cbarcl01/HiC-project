@@ -46,7 +46,7 @@ In this pipeline we aim to reduce the numebr of scaffolds for the current refere
 
 ## 2. Getting Started
 
-### 2.1 Dependencies
+### 2.1 Dependencies & Environment setup
 
 You will require Miniconda and git to run this pipeline. This pipeline has been prepared for a linux terminal in BASH. 
 
@@ -60,15 +60,27 @@ Please use the following shell command to clone the repository:
 git clone https://github.com/cbarcl01/BIOF501-project.git
 ```
 
-**Conda Environment**
+**Create Conda Environment**
 
-Generate a conda environment with the relevant dependencies by using the `environment.yml` file in this repository. The first line of the .yml file sets the environment's name, you can amend this as needed.
+To run the pipeline, first create a conda environment with the relevant dependencies by using the `biof501env.yml` file in the `envs` subdirectory of this repository. The first line of the .yml file sets the environment's name, you can amend this as needed.
 
 ```
-conda env create -f  environment.yml
+conda env create -f  envs/biof501env.yml
 ```
 
+Due to conflicting versions of python required for different rules, we need to create an additional environment to run the final part of the pipeline for the salsa_scaffold rule. In Snakemake 3.9.0 you can define isolated software environments per rule, so please ensure you are using the most recent version. See [Integrated Package Management](https://snakemake.readthedocs.io/en/stable/snakefiles/deployment.html#integrated-package-management) of the snakemake documentation for more information. To create this environment please use the  
 
+```
+conda env create -f  envs/salsaEnvironment.yml
+```
+
+**Create Conda Environment**
+
+To get started, activate the initial environment with the following code. The salsa environment does not need to be activated as this is referred to within the pipeline.
+
+```
+conda activate biof501env
+```
 
 ### 2.2 Get Data
 
@@ -89,20 +101,9 @@ wget https://www.dropbox.com/s/tnnhxz3bsccgjbn/plotkin-mle_S3HiC_R2.fastq.gz
 
 ## 3. Usage
 
+### 3.1 DAG
+
 **Pipeline**
-
-Build index
-
-```
-bowtie2-build -f ./rawdata/MlScaffold09.nt ./index/mleindex
-
-```
-
-Align HiC to index
-
-```
-bowtie2 -x ./index/mleindex2 \ -p 8 -1 ./rawdata/plotkin-mle_S3HiC_R1.fastq \ -2 ./rawdata/plotkin-mle_S3HiC_R2.fastq \ -S ./hic.sam
-```
 
 
 69789521 reads; of these:
@@ -122,38 +123,9 @@ bowtie2 -x ./index/mleindex2 \ -p 8 -1 ./rawdata/plotkin-mle_S3HiC_R1.fastq \ -2
 31.16% overall alignment rate
 
 
-Sam to bed
-
-```
-samtools view -S -b -h hic.sam > hic.bam
-```
-
-
-Bam to bed
-
-```
-bamToBed -i hic.bam > hic.bed 
-
-
-Generate contigs length
-
-```
-samtools faidx ./rawdata/MlScaffold09.nt 
-```
-Sort
-
-```
-sortBed -faidx ./rawdata/MlScaffold09.nt.fai  -i hic.bed
-OR
-sort -k 4 hic.bed > tmp && mv tmp hic.bed
-```
-
-Run SALSA2 scaffolding
-
-```
-python /miniconda3/envs/condahic/bin/run_pipeline.py -a MlScaffold09.nt -l MlScaffold09.nt.fai -b hic.bed -e GANTC,TTAA,CTNAG,GATC -o scaffolds -m yes
-```
-
 ### 3.1 DAG
 
 ### 3.2 Run pipeline
+
+## References
+

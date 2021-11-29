@@ -1,9 +1,15 @@
-
+---
+output:
+  html_document:
+    toc: true
+    theme: united
+---
+    
 # BIOF501-project: A chromosome scale assembly using SALSA2 with additional QC steps.
 
-### Instructions
+### Notes on Pipeline
 
-The student will identify a dataset and develop a workflow that allows a third party to interrogate the dataset. The workflow must be created as a pipeline using Snakemake or NextFlow and requires that the student create a Standard Operating Procedure that documents the usage of the workflow.
+The following pipeline aims to improve an existing reference assembly by utilisng HiC student will identify a dataset and develop a workflow that allows a third party to interrogate the dataset. The workflow must be created as a pipeline using Snakemake or NextFlow and requires that the student create a Standard Operating Procedure that documents the usage of the workflow.
 The workflow must include visualisations so that the results can be easily interpreted.
 
 As part of your project, you must:
@@ -48,7 +54,9 @@ In this pipeline we aim to reduce the numebr of scaffolds for the current refere
 
 You will require Miniconda and git to run this pipeline. This pipeline has been prepared for a linux terminal in BASH. 
 
-Please note that SALSA2 is a tool in development and therefore you will need to use the specified versions for Python, BOOST libraries and Networkx. For more information on the tool itself, as well as additional functionality, please see the github repository for [SALSA2](https://github.com/marbl/SALSA).
+Please note that SALSA2 is a tool in development and if installing manually you will need to use the specified versions for Python, BOOST libraries and Networkx. For more information on the tool itself, as well as additional functionality, please see the github repository for [SALSA2](https://github.com/marbl/SALSA).
+
+Please be aware that conflicts in the python versions needed for each tool (version 2.7 for SALSA2 and >=3.1 for snakemake) has required different environments. The snakemake environment will be created from the `environment.yaml` file in the `envs` folder, while the pipeline itself will create another environment, within snakemake, to run SALSA2 - this environment has been called `SALSAenvironment`. Please ensure the environments are both stored in the envs folder so that the pipeline works correctly.  
 
 **Clone repository**
 

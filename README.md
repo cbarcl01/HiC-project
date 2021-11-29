@@ -108,7 +108,10 @@ Description of pipeline process
 
 #### 3.1 DAG
 
+Below is the DAG for the scaffolding pipeline using SALSA2.
 
+
+![DAG](https://github.com/cbarcl01/BIOF501-project/blob/main/dag.svg)
 
 #### 3.2 Run pipeline
 

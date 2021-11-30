@@ -46,7 +46,7 @@ git clone https://github.com/cbarcl01/BIOF501-project.git
 
 **Create Conda Environment**
 
-To run the pipeline, first create a conda environment with the relevant dependencies by using the `environment.yaml` file in the `envs` subdirectory of this repository. The first line of the .yaml file sets the environment's name, you can amend this as needed. Please also amend the prefix pathway at the end of the file to an appropriate location on your machine.
+To run the pipeline, first create a conda environment with the relevant dependencies by using the `environment.yaml` file in the `envs` subdirectory of this repository. The first line of the .yaml file sets the environment's name, you can amend this as needed. Please also amend the amend the prefix at the end of the document with the appropriate `\home\user` pathway to a relevant directory to store/load the conda environment.
 
 ```
 conda env create -f  envs/environment.yaml
@@ -55,7 +55,7 @@ conda env create -f  envs/environment.yaml
 
 **Create Conda Environment**
 
-To get started, activate the initial environment with the following code. The salsa environment does not need to be activated as this is referred to within the pipeline.
+To get started, activate the initial environment with the following code. The salsa environment does not need to be activated as this is referred to within the pipeline, however as with the environment.yaml file, you will need to amend the prefix at the end of the document with the appropriate `\home\user` pathway to a relevant directory.
 
 ```
 conda activate biof501

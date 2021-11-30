@@ -7,56 +7,39 @@ output:
     
 # BIOF501-project: A chromosome scale assembly using SALSA2 with additional QC steps.
 
-### Notes on Pipeline
+## Notes on Pipeline
 
-The following pipeline aims to improve an existing reference assembly by utilisng HiC student will identify a dataset and develop a workflow that allows a third party to interrogate the dataset. The workflow must be created as a pipeline using Snakemake or NextFlow and requires that the student create a Standard Operating Procedure that documents the usage of the workflow.
-The workflow must include visualisations so that the results can be easily interpreted.
+The following pipeline aims to improve an existing reference assembly by utilising HiC data and the SALSA2 open-source tool1 to re-order and re-orient the assembly and ultimately reduce the number of scaffold. When used with long read data, this pipeline should create a chromosome scale (or close to) assembly. For this term project, I have opted to use my own HiC data, however the long read data from PacBio has not currently been delivered (samples have been collected and are in the process of being sequenced utilising PacBio HiFi read technology on the PacBio Sequell II). Therefore this pipeline is a proof of concept, that aims to reduce the number of scaffolds in the existing assembly, but due to its short read nature will not get a chromosome scale resolution. 
+Furthermore, as the primary output is a fasta file of the final scaffold assembly, this is too large for github. These test results have been added to Dropbox and the links shared with Prof Dr. Hsaio and TA Ishika Luthra.
 
-As part of your project, you must:
+## 1. Background and rationale
 
-- Describe the dataset, providing full accession details, number of individuals in the cohort, type of
-data (DNA, RNA, methylation, etc) and other relevant metadata
-- Some tools may accept several datasets or types (be specific and document flexibility)
-- Clearly define your control and test groups
-- Clearly state your hypothesis, aims and objectives
-- Clearly describe your environment (python version, snakemake version, package versions, etc)
+**Importance of chromosome scale assembly.**
 
-The Standard Operating Procedure (SOP) must provide details
-on:
+Advances in technology have drastically reduced the cost of sequencing per base, resulting in an increase in massively parallel sequencing methods to answer biological questions. De novo assembly of these sequences still remains problematic however, and the quality of short read assemblies can often restrict analysis as the nature of short reads is often limiting (for example when compared to long repeat lengths of some gene regions)2,3. Long read sequencing can offer reads in excess of 10kb however most technologies offer a relatively high error rate4,5. In Hi-C sequencing cells are cross-linked with formaldehyde, digested with a restriction enzyme where a biotinylated residue is added and then ligated prior to sequencing. The resulting reads provide contact information which allow for the study of the 3D organisation of the genome, however recently this data has also been applied to assemble eukaryotic genomes into chromosome-scale scaffolds1. Chromosome-scale assembly can aid evolution studies6, and may help resolve the relative phylogenetic position of ctenophores or sponges as the sister group to other metazoans.
 
-- Information about the pipeline and what it aims to do
-- Expected results
-- Usage instructions so that another person can replicate
-your results
-- The setup of the environment as well as package versions
-so that it can be replicated easily
-- Information about the data used in the analysis (source,
-accession date, number of samples, disease status, etc.)
-- Any accessory programs that will be called from snakemake
-(including version numbers)
+**Model organism: Mnemiopsis leidyi**
 
-
-### 1. Background and rationale
-
-Importance of chromosome scale assembly.
-
-SALSA2 is a tool for chromosome scale assembly. Uses Hi-C data.
-
-What is HiC data and how is it generated.
-
-In this pipeline we aim to reduce the numebr of scaffolds for the current reference genome of the model organism *Mnemiopsis leidyi*.This organism is well placed phylogenetically as the sister group to all other metazoa and further understanding of it's genome can elucidate information around genome evolution, cell differentiation and conserved gene regulatory networks that are required for multicellularity.  
+*Mnemiopsis leidyi* is well placed phylogenetically as the sister group to all other metazoan and further understanding of its genome can elucidate information around genome evolution, cell differentiation and conserved gene regulatory networks that are required for multicellularity7.  Existing draft genomes exist for both *M. leidyi* and *Pleurobrachia bachei*, which have been instrumental in highlighting key developmental gene features that did not evolve until the common ancestor of bilateria, however both genomes are still not chromosome-scale.
 
 **Aim**: To improve reference genome for *Mnemiopsis leidyi* by reducing number of scaffolds and move towards a chromosome-scale assembly.
 
-### 2. Getting Started
+**SALSA2 scaffolding**
 
-#### 2.1 Dependencies & Environment setup
+The pipeline below utilises the SALSA2 tool, to reduce the number of scaffolds for the current reference genome of the model organism *Mnemiopsis leidyi*. SALSA2 requires an initial assembly of contig/scaffold sequences and optionally a GFA-assembly graph (not used in this pipeline). HiC reads are aligned to the assembly, and edges are scored according to the ‘best buddy’ scheme, generating a scaffold graph from which scaffolds are iteratively generated1. For more information please see the paper [Integrating Hi-C links with assembly graphs for chromosome-scale assembly]( https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1007273).
+
+![SALSA2_scaffolding]( https://github.com/cbarcl01/BIOF501-project/blob/main/Fig_1.png)
+
+
+## 2. Getting Started
+
+### 2.1 Dependencies & Environment setup
 
 You will require Miniconda and git to run this pipeline. This pipeline has been prepared for a linux terminal in BASH. 
 
 Please note that SALSA2 is a tool in development and if installing manually you will need to use the specified versions for Python, BOOST libraries and Networkx. For more information on the tool itself, as well as additional functionality, please see the github repository for [SALSA2](https://github.com/marbl/SALSA).
 
-Please be aware that conflicts in the python versions needed for each tool (version 2.7 for SALSA2 and >=3.1 for snakemake) has required different environments. The snakemake environment will be created from the `environment.yaml` file in the `envs` folder, while the pipeline itself will create another environment, within snakemake, to run SALSA2 - this environment has been called `SALSAenvironment`. Please ensure the environments are both stored in the envs folder so that the pipeline works correctly.  
+Please be aware that conflicts in the python versions needed for each tool (version 2.7 for SALSA2 and >=3.1 for snakemake) has required different environments. In Snakemake 3.9.0 you can define isolated software environments per rule, so please ensure you are using the most recent version. See [Integrated Package Management](https://snakemake.readthedocs.io/en/stable/snakefiles/deployment.html#integrated-package-management) of the snakemake documentation for more information.The snakemake environment will be created from the `environment.yaml` file in the `envs` folder, while the pipeline itself will create another environment, within snakemake, to run SALSA2 - this environment has been called `SALSAenvironment`. Please ensure the environments are both stored in the envs folder so that the pipeline works correctly.
 
 **Clone repository**
 
@@ -68,27 +51,22 @@ git clone https://github.com/cbarcl01/BIOF501-project.git
 
 **Create Conda Environment**
 
-To run the pipeline, first create a conda environment with the relevant dependencies by using the `biof501env.yml` file in the `envs` subdirectory of this repository. The first line of the .yml file sets the environment's name, you can amend this as needed.
+To run the pipeline, first create a conda environment with the relevant dependencies by using the `environment.yaml` file in the `envs` subdirectory of this repository. The first line of the .yaml file sets the environment's name, you can amend this as needed. Please also amend the prefix pathway at the end of the file to an appropriate location on your machine.
 
 ```
-conda env create -f  envs/biof501env.yml
+conda env create -f  envs/environment.yaml
 ```
 
-Due to conflicting versions of python required for different rules, we need to create an additional environment to run the final part of the pipeline for the salsa_scaffold rule. In Snakemake 3.9.0 you can define isolated software environments per rule, so please ensure you are using the most recent version. See [Integrated Package Management](https://snakemake.readthedocs.io/en/stable/snakefiles/deployment.html#integrated-package-management) of the snakemake documentation for more information. To create this environment please use the  
-
-```
-conda env create -f  envs/salsaEnvironment.yml
-```
 
 **Create Conda Environment**
 
 To get started, activate the initial environment with the following code. The salsa environment does not need to be activated as this is referred to within the pipeline.
 
 ```
-conda activate biof501env
+conda activate biof501
 ```
 
-#### 2.2 Data
+### 2.2 Data
 
 **Download data**
 
@@ -102,25 +80,42 @@ An existing assembly and HiC data are required to run this pipeline. The data wi
 | plotkin-mle_S3HiC_R2.fastq.gz   | Reverse read for HiC | [download](https://www.dropbox.com/s/tnnhxz3bsccgjbn/plotkin-mle_S3HiC_R2.fastq.gz) | 
 
 
-### 3. Usage
+## 3. Usage
 
-Description of pipeline process
+In order to run the scaffolding pipeline, we first need to align and convert files to input to the final shell script. The following steps must be completed:
 
-#### 3.1 DAG
+1. Download reference genome and HiC data
+2. Align HiC data to the reference genome
+3. Convert .sam alignment to .bed format
+4. Sort the .bed format
+5. Generate a contig length fast.fai file
+5. Run SALSA2 assembly
+
+### 3.1 DAG
 
 Below is the DAG for the scaffolding pipeline using SALSA2.
 
 
 ![DAG](https://github.com/cbarcl01/BIOF501-project/blob/main/dag.svg)
 
-#### 3.2 Run pipeline
+### 3.2 Run pipeline
 
+Before running pipeline, ensure all filepaths are correct and that no files have been renamed. Make sure the biof501 environment is active. Run the pipeline using the following code:
 
-### 3.3 Test results
+```
+snakemake --cores 2 --use-conda
+```
+Note, we need to use the --use-conda instruction to get the pipeline to use the additional environment for the scaffold rule.
 
+## 3.3 Test results
+
+Due to the size ofsome the outputs, not all of the test results could be stored on github. Therefore the results have been added to Dropbox and the link shared.  A summary of the key results is below.
 
 **Alignment output**
 
+This should be a alignment.sam file with the following alignment:
+
+```
 69789521 reads; of these:
   69789521 (100.00%) were paired; of these:
     69690487 (99.86%) aligned concordantly 0 times
@@ -136,7 +131,11 @@ Below is the DAG for the scaffolding pipeline using SALSA2.
         27925732 (20.05%) aligned exactly 1 time
         15242308 (10.95%) aligned >1 times
 31.16% overall alignment rate
+```
 
+**Sorted Bed file**
+
+This should be an alignment.sorted.bed file
 
 #### References
 

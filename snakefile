@@ -4,32 +4,32 @@ rule all:
 	scaffolds="scaffolds"
 
 rule download_data:
-    output:
-        ref="data/MlScaffold09.nt.gz",
-        r1="data/plotkin-mle_S3HiC_R1.fastq.gz",
-        r2="data/plotkin-mle_S3HiC_R2.fastq.gz"
+	output:
+		ref="data/MlScaffold09.nt.gz",
+		r1="data/plotkin-mle_S3HiC_R1.fastq.gz",
+		r2="data/plotkin-mle_S3HiC_R2.fastq.gz"
     shell:
-        """
-        wget https://research.nhgri.nih.gov/mnemiopsis/download/genome/MlScaffold09.nt.gz -O {output.ref}
-        wget https://www.dropbox.com/s/tnnhxz3bsccgjbn/plotkin-mle_S3HiC_R1.fastq.gz -O {output.r1}
-        wget https://www.dropbox.com/s/tnnhxz3bsccgjbn/plotkin-mle_S3HiC_R2.fastq.gz -O {output.r2}
-        """
+     	"""
+     	wget https://research.nhgri.nih.gov/mnemiopsis/download/genome/MlScaffold09.nt.gz -O {output.ref}
+     	wget https://www.dropbox.com/s/tnnhxz3bsccgjbn/plotkin-mle_S3HiC_R1.fastq.gz -O {output.r1}
+     	wget https://www.dropbox.com/s/tnnhxz3bsccgjbn/plotkin-mle_S3HiC_R2.fastq.gz -O {output.r2}
+     	"""
 
 rule unzip_data:
     input:
-          ref=rules.download_data.output.ref,
-          r1=rules.download_data.output.r1,
-          r2=rules.download_data.output.r2
+    	ref=rules.download_data.output.ref,
+    	r1=rules.download_data.output.r1,
+    	r2=rules.download_data.output.r2
     output:
-          ref="data/MlScaffold09.nt",
-          r1="data/plotkin-mle_S3HiC_R1.fastq",
-          r2="data/plotkin-mle_S3HiC_R2.fastq"
+    	ref="data/MlScaffold09.nt",
+    	r1="data/plotkin-mle_S3HiC_R1.fastq",
+    	r2="data/plotkin-mle_S3HiC_R2.fastq"
     shell:
-        """
-        gzip -d {input.ref} 
-        gzip -d {input.r1} 
-        gzip -d {input.r2} 
-        """
+    	"""
+    	gzip -d {input.ref} 
+    	gzip -d {input.r1}
+    	gzip -d {input.r2} 
+    	"""
 
 rule build_index:
     input:

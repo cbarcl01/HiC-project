@@ -154,11 +154,22 @@ This should be a alignment.sam file (please see Dropbox link for the full test f
 This should be an alignment.sorted.bed file (please see Dropbox link for the full test file). Using the tail function the output should look like this:
 
 ```
-
+ML4106  1075    1229    GWNJ-1013:282:GW211004000:2:2678:9986:3035/2    0       -
+ML1541  817403  817553  GWNJ-1013:282:GW211004000:2:2678:9986:5791/1    42      +
+ML0580  55832   55982   GWNJ-1013:282:GW211004000:2:2678:9995:12007/1   23      +
+ML1117  263618  263768  GWNJ-1013:282:GW211004000:2:2678:9995:17331/1   0       -
+ML4358  264128  264278  GWNJ-1013:282:GW211004000:2:2678:9995:18865/1   42      +
+ML0509  194511  194658  GWNJ-1013:282:GW211004000:2:2678:9995:31986/1   0       +
+ML0091  207530  207680  GWNJ-1013:282:GW211004000:2:2678:9995:32174/1   1       +
+ML0040  2638    2788    GWNJ-1013:282:GW211004000:2:2678:9995:32174/2   0       +
+ML1621  79504   79654   GWNJ-1013:282:GW211004000:2:2678:9995:36746/1   42      -
+ML0711  491552  491702  GWNJ-1013:282:GW211004000:2:2678:9995:36996/1   3       -
 
 ```
-**Sorted Bed file**
 
+**Scaffolds**
+
+The scaffold files of interest are scaffolds_FINAL.agp in the test_results directory of this repo and scaffolds_FINAL.fasta which is in Dropbox.
 
 #### References
 

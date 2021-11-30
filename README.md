@@ -9,24 +9,25 @@ output:
 
 ## Notes on Pipeline
 
-The following pipeline aims to improve an existing reference assembly by utilising HiC data and the SALSA2 open-source tool1 to re-order and re-orient the assembly and ultimately reduce the number of scaffold. When used with long read data, this pipeline should create a chromosome scale (or close to) assembly. For this term project, I have opted to use my own HiC data, however the long read data from PacBio has not currently been delivered (samples have been collected and are in the process of being sequenced utilising PacBio HiFi read technology on the PacBio Sequell II). Therefore this pipeline is a proof of concept, that aims to reduce the number of scaffolds in the existing assembly, but due to its short read nature will not get a chromosome scale resolution. 
+The following pipeline aims to improve an existing reference assembly by utilising HiC data and the SALSA2 open-source tool[1](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1007273) to re-order and re-orient the assembly and ultimately reduce the number of scaffold. When used with long read data, this pipeline should create a chromosome scale (or close to) assembly. For this term project, I have opted to use my own HiC data, however the long read data from PacBio has not currently been delivered (samples have been collected and are in the process of being sequenced utilising PacBio HiFi read technology on the PacBio Sequell II). Therefore this pipeline is a proof of concept, that aims to reduce the number of scaffolds in the existing assembly, but due to its short read nature will not get a chromosome scale resolution. 
+
 Furthermore, as the primary output is a fasta file of the final scaffold assembly, this is too large for github. These test results have been added to Dropbox and the links shared with Prof Dr. Hsaio and TA Ishika Luthra.
 
 ## 1. Background and rationale
 
 **Importance of chromosome scale assembly.**
 
-Advances in technology have drastically reduced the cost of sequencing per base, resulting in an increase in massively parallel sequencing methods to answer biological questions. De novo assembly of these sequences still remains problematic however, and the quality of short read assemblies can often restrict analysis as the nature of short reads is often limiting (for example when compared to long repeat lengths of some gene regions)2,3. Long read sequencing can offer reads in excess of 10kb however most technologies offer a relatively high error rate4,5. In Hi-C sequencing cells are cross-linked with formaldehyde, digested with a restriction enzyme where a biotinylated residue is added and then ligated prior to sequencing. The resulting reads provide contact information which allow for the study of the 3D organisation of the genome, however recently this data has also been applied to assemble eukaryotic genomes into chromosome-scale scaffolds1. Chromosome-scale assembly can aid evolution studies6, and may help resolve the relative phylogenetic position of ctenophores or sponges as the sister group to other metazoans.
+Advances in technology have drastically reduced the cost of sequencing per base, resulting in an increase in massively parallel sequencing methods to answer biological questions. De novo assembly of these sequences still remains problematic however, and the quality of short read assemblies can often restrict analysis as the nature of short reads is often limiting (for example when compared to long repeat lengths of some gene regions)[2](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-14-S5-S18),[3](https://pubmed.ncbi.nlm.nih.gov/19580519/). Long read sequencing can offer reads in excess of 10kb however most technologies offer a relatively high error rate[4](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-020-1935-5),[5](https://pubmed.ncbi.nlm.nih.gov/29767702/). In Hi-C sequencing cells are cross-linked with formaldehyde, digested with a restriction enzyme where a biotinylated residue is added and then ligated prior to sequencing. The resulting reads provide contact information which allow for the study of the 3D organisation of the genome, however recently this data has also been applied to assemble eukaryotic genomes into chromosome-scale scaffolds[1](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1007273). Chromosome-scale assembly can aid evolution studies[6](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-018-1559-1), and may help resolve the relative phylogenetic position of ctenophores or sponges as the sister group to other metazoans.
 
 **Model organism: Mnemiopsis leidyi**
 
-*Mnemiopsis leidyi* is well placed phylogenetically as the sister group to all other metazoan and further understanding of its genome can elucidate information around genome evolution, cell differentiation and conserved gene regulatory networks that are required for multicellularity7.  Existing draft genomes exist for both *M. leidyi* and *Pleurobrachia bachei*, which have been instrumental in highlighting key developmental gene features that did not evolve until the common ancestor of bilateria, however both genomes are still not chromosome-scale.
+*Mnemiopsis leidyi* is well placed phylogenetically as the sister group to all other metazoan and further understanding of its genome can elucidate information around genome evolution, cell differentiation and conserved gene regulatory networks that are required for multicellularity[7](https://pubmed.ncbi.nlm.nih.gov/24337300/).  Existing draft genomes exist for both *M. leidyi* and *Pleurobrachia bachei*, which have been instrumental in highlighting key developmental gene features that did not evolve until the common ancestor of bilateria, however both genomes are still not chromosome-scale.
 
 **Aim**: To improve reference genome for *Mnemiopsis leidyi* by reducing number of scaffolds and move towards a chromosome-scale assembly.
 
 **SALSA2 scaffolding**
 
-The pipeline below utilises the SALSA2 tool, to reduce the number of scaffolds for the current reference genome of the model organism *Mnemiopsis leidyi*. SALSA2 requires an initial assembly of contig/scaffold sequences and optionally a GFA-assembly graph (not used in this pipeline). HiC reads are aligned to the assembly, and edges are scored according to the ‘best buddy’ scheme, generating a scaffold graph from which scaffolds are iteratively generated1. For more information please see the paper [Integrating Hi-C links with assembly graphs for chromosome-scale assembly]( https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1007273).
+The pipeline below utilises the SALSA2 tool, to reduce the number of scaffolds for the current reference genome of the model organism *Mnemiopsis leidyi*. SALSA2 requires an initial assembly of contig/scaffold sequences and optionally a GFA-assembly graph (not used in this pipeline). HiC reads are aligned to the assembly, and edges are scored according to the ‘best buddy’ scheme, generating a scaffold graph from which scaffolds are iteratively generated[1](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1007273). For more information please see the paper [Integrating Hi-C links with assembly graphs for chromosome-scale assembly]( https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1007273).
 
 ![SALSA2_scaffolding]( https://github.com/cbarcl01/BIOF501-project/blob/main/Fig_1.png)
 
@@ -85,11 +86,12 @@ An existing assembly and HiC data are required to run this pipeline. The data wi
 In order to run the scaffolding pipeline, we first need to align and convert files to input to the final shell script. The following steps must be completed:
 
 1. Download reference genome and HiC data
-2. Align HiC data to the reference genome
-3. Convert .sam alignment to .bed format
-4. Sort the .bed format
-5. Generate a contig length fast.fai file
-5. Run SALSA2 assembly
+2. Unzip data
+3. Align HiC data to the reference genome
+4. Convert .sam alignment to .bed format
+5. Sort the .bed format
+6. Generate a contig length fast.fai file
+7. Run SALSA2 assembly
 
 ### 3.1 DAG
 
@@ -105,15 +107,29 @@ Before running pipeline, ensure all filepaths are correct and that no files have
 ```
 snakemake --cores 2 --use-conda
 ```
-Note, we need to use the --use-conda instruction to get the pipeline to use the additional environment for the scaffold rule.
+Note, we need to use the --use-conda instruction to get the pipeline to use the additional environment for the scaffold rule. If there are any issues downloading the data with the pipeline (sometimes latency issues can cause this to hang), please download manually with the following commands and move data to the data/ directory:
+
+```
+wget https://research.nhgri.nih.gov/mnemiopsis/download/genome/MlScaffold09.nt.gz
+wget https://www.dropbox.com/s/tnnhxz3bsccgjbn/plotkin-mle_S3HiC_R1.fastq.gz
+wget https://www.dropbox.com/s/tnnhxz3bsccgjbn/plotkin-mle_S3HiC_R2.fastq.gz
+
+gzip -d MlScaffold09.nt.gz
+gzip -d plotkin-mle_S3HiC_R1.fastq.gz
+gzip -d plotkin-mle_S3HiC_R2.fastq.gz
+```
 
 ## 3.3 Test results
 
-Due to the size ofsome the outputs, not all of the test results could be stored on github. Therefore the results have been added to Dropbox and the link shared.  A summary of the key results is below.
+Due to the size ofsome the outputs, not all of the test results could be stored on github. Therefore the results have been added to Dropbox and the link shared. The SALSA2 scaffolding generates an output directory with a large number of files, according to the [SALSA2 github](https://github.com/marbl/SALSA):
+
+*SALSA is an iterative algorithm, so it generates files for each iteration. The files you will be interested in are scaffolds_FINAL.fasta, which contains the sequences for the scaffolds generated by the algorithm. Another file which is of interest is scaffolds_FINAL.agp, which is the agp style output for the scaffolds describing the assignment, orientation and ordering of contigs along the scaffolds.* 
+
+Therefore these are the files we will use to test the pipeline: A summary of the key results is below.
 
 **Alignment output**
 
-This should be a alignment.sam file with the following alignment:
+This should be a alignment.sam file (please see Dropbox link for the full test file) with the following alignment:
 
 ```
 69789521 reads; of these:
@@ -135,7 +151,22 @@ This should be a alignment.sam file with the following alignment:
 
 **Sorted Bed file**
 
-This should be an alignment.sorted.bed file
+This should be an alignment.sorted.bed file (please see Dropbox link for the full test file). Using the tail function the output should look like this:
+
+```
+
+
+```
+**Sorted Bed file**
+
 
 #### References
+
+1. 	Ghurye J, Rhie A, Walenz BP, et al. Integrating Hi-C links with assembly graphs for chromosome-scale assembly. PLoS Comput Biol. 2019;15(8):1-19. doi:10.1371/journal.pcbi.1007273
+2. 	Bresler G, Bresler M, Tse D. Optimal assembly for high throughput shotgun sequencing. BMC Bioinformatics. 2013;14 Suppl 5(Suppl 5):1-13. doi:10.1186/1471-2105-14-s5-s18
+3. 	Nagarajan N, Pop M. Parametric complexity of sequence assembly: Theory and applications to next generation sequencing. J Comput Biol. 2009;16(7):897-908. doi:10.1089/cmb.2009.0005
+4. 	Amarasinghe SL, Su S, Dong X, Zappia L, Ritchie ME, Gouil Q. Opportunities and challenges in long-read sequencing data analysis. Genome Biol. 2020;21(1):1-16. doi:10.1186/s13059-020-1935-5
+5. 	Pollard MO, Gurdasani D, Mentzer AJ, Porter T, Sandhu MS. Long reads: Their purpose and place. Hum Mol Genet. 2018;27(R2):R234-R241. doi:10.1093/hmg/ddy177
+6. 	Sacerdot C, Louis A, Bon C, Roest Crollius H. Chromosome evolution at the origin of the ancestral vertebrate genome. Genome Biol. 2018:1-15. doi:10.1101/253104
+7. 	Ryan JF, Pang K, Schnitzler CE, et al. The genome of the ctenophore Mnemiopsis leidyi and its implications for cell type evolution. Science (80- ). 2013;342(6164). doi:10.1126/science.1242592
 

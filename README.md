@@ -163,7 +163,7 @@ ML0711  491552  491702  GWNJ-1013:282:GW211004000:2:2678:9995:36996/1   3       
 
 **Scaffolds**
 
-The scaffold files of interest are scaffolds_FINAL.agp in the test_results directory of this repo and scaffolds_FINAL.fasta which is in Dropbox (please see [Dropbox link](https://www.dropbox.com/sh/93w4crzlzo6aspn/AACHTpnfqdRkxqj5KecGicBza?dl=0) for the full test file). Below are previews of the files, using the head function:
+The scaffold files of interest are scaffolds_FINAL.agp in the test_results directory of this repo and scaffolds_FINAL.fasta which is in Dropbox (please see [Dropbox link](https://www.dropbox.com/sh/93w4crzlzo6aspn/AACHTpnfqdRkxqj5KecGicBza?dl=0) for the full test file). The final scaffold number was **4312**, a reduction from the original assembly of **5100**. Below are previews of the files, using the head function:
 
 **scaffolds_FINAL.fasta**
 

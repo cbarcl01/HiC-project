@@ -169,7 +169,38 @@ ML0711  491552  491702  GWNJ-1013:282:GW211004000:2:2678:9995:36996/1   3       
 
 **Scaffolds**
 
-The scaffold files of interest are scaffolds_FINAL.agp in the test_results directory of this repo and scaffolds_FINAL.fasta which is in Dropbox.
+The scaffold files of interest are scaffolds_FINAL.agp in the test_results directory of this repo and scaffolds_FINAL.fasta which is in Dropbox. Below are previews of the files, using the head function:
+
+**scaffolds_FINAL.fasta**
+
+```
+>scaffold_1
+ACAAGGAATCCGAAGTTGATAGTTTCGAATCCGAAAAATCATCACTTGACCCCTTAAATGACCCCTTATAATAAGGCCCC
+AAAATTGTAATTTTCAACTTTGAGCTAGGAGAAAAGTTAGACCAGTATTTTGACGTAAAATTAGACAAGGAATCCGAATT
+TGATAGTTTCGAATCCTAACAAGAATTGCGGCCGCTTTCACTGTGTCAGGCGACCGCTGAATTTCCCGTATCAATTATCA
+TGCCGTCGCTTATTGTAATTAAAATTCGCGAAATAAGGAATCATAATACGCAACCACTAACCACACGTAATTTCAGTTAA
+TTTTCATAGTTCTGGCTCTGCACGTGTAAATACAGACGCACGAATTAATGCAGCCGTTCAATGCATGATTTTAAAATTTC
+ACGCTGCACGCGCAATGTTTGAACACTATCGCGCGTTCTTTTCATTGTTTTATTTCAAATATCTTGAGTCTGTATGACGT
+CGTCATAATTATATTGTCTATGCTACCTTTATAATTTATTCATAGTCATACTGCGTTGTGTTTATACTTAATACTAATAG
+CGTTATGTAAGTTTGTCGTTAAATATATTTGTACCGTGTACGGAGCTGATATTAAAATCGTGTTACATTCATCTTTCAAT
+CTGTCAAATTTCGACAAATTACTCAATAAAAGTAAAACTAAAGTTCATAGAATTTTGATCATTTTTCTTGATGTGAGGCA
+```
+**scaffolds_FINAL.fasta**
+
+```
+scaffold_1      1       1222598 1       W       ML1541  1       1222598 +
+scaffold_2      1       584472  1       W       ML0179  1       584472  -
+scaffold_2      584473  584972  2       N       500     scaffold        yes     na
+scaffold_2      584973  960666  3       W       ML0864  1       375694  -
+scaffold_3      1       734417  1       W       ML0569  1       734417  +
+scaffold_4      1       708851  1       W       ML0032  1       708851  +
+scaffold_5      1       366950  1       W       ML0044  1       366950  +
+scaffold_5      366951  367450  2       N       500     scaffold        yes     na
+scaffold_5      367451  443353  3       W       ML1026  1       75903   +
+scaffold_5      443354  443853  4       N       500     scaffold        yes     na
+
+```
+
 
 #### References
 

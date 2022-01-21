@@ -3,9 +3,11 @@
 
 ## Notes on Pipeline
 
-The following pipeline aims to improve an existing reference assembly by utilising HiC data and the SALSA2 open-source tool[1](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1007273) to re-order and re-orient the assembly and ultimately reduce the number of scaffold. When used with long read data, this pipeline should create a chromosome scale (or close to) assembly. For this term project, I have opted to use my own HiC data, however the long read data from PacBio has not currently been delivered (samples have been collected and are in the process of being sequenced utilising PacBio HiFi read technology on the PacBio Sequell II). Therefore this pipeline is a proof of concept, that aims to reduce the number of scaffolds in the existing assembly, but due to its short read nature will not get a chromosome scale resolution. 
+The following pipeline aims to improve an existing reference assembly by utilising HiC data and the SALSA2 open-source tool[1](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1007273) to re-order and re-orient the assembly and ultimately reduce the number of scaffold. When used with long read data, this pipeline should create a chromosome scale (or close to) assembly. 
 
-Furthermore, as the primary output is a fasta file of the final scaffold assembly, this is too large for github. These test results have been added to Dropbox and the links shared with Prof Dr. Hsaio. [This link](https://www.dropbox.com/sh/0ztfcfupay5xpmq/AADGSyrRX1NuY38YnFuRCt86a?dl=0) should also take you to the dropbox folder.
+This project uses experimental short-read HiC data, however the long read data from PacBio has not currently been delivered (samples have been collected and are in the process of being sequenced utilising PacBio HiFi read technology on the PacBio Sequell II). Therefore this pipeline is a proof of concept, that aims to reduce the number of scaffolds in the existing assembly, but due to its short read nature will not get a chromosome scale resolution. 
+
+Furthermore, as the primary output is a fasta file of the final scaffold assembly, this is too large for github. These test results have been added to Dropbox and the links can be shared at request. Please create an Issue to get access. [This link](https://www.dropbox.com/sh/0ztfcfupay5xpmq/AADGSyrRX1NuY38YnFuRCt86a?dl=0) should take you to the dropbox folder.
 
 ## 1. Background and rationale
 

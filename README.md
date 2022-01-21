@@ -1,5 +1,5 @@
 
-# BIOF501-project: A chromosome scale assembly using SALSA2 with additional QC steps.
+# HiC-project: A chromosome scale assembly using SALSA2 with additional QC steps.
 
 ## Notes on Pipeline
 

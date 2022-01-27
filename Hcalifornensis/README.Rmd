@@ -1,0 +1,40 @@
+---
+title: "README"
+author: "Charlotte Barclay"
+date: "26/01/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Positive Control
+
+The following document describes and provides the code for a reproduction of the assembly for H. californensis as in the study.
+
+##Assembly
+
+Uses the wtdbg2 assembler. This has been installed into the condahic environment using the following code: 
+
+```{bash, eval=FALSE}
+conda activate condahic
+conda install -c bioconda wtdbg
+```
+
+## Run assembly
+
+Estimate 15-30mins. 
+
+### Parameters 
+
+Where -g is the estimated genome size and -x specifies the sequencing technology, which could take value "rs" for PacBio RSII, "sq" for PacBio Sequel, "ccs" for PacBio CCS reads and "ont" for Oxford Nanopore.
+
+```{r pressure, echo=FALSE}
+#./wtdbg2 -x rs -g 4.6m -t 16 -i reads.fa.gz -fo prefix
+
+./wtdbg2 -x sq -g 156m -t 16 -i reads.fa.gz -fo prefix
+
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

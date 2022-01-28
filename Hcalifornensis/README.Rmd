@@ -11,11 +11,15 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # *Homiphora californensis* - a positive control
 
-The following document describes and provides the code for a reproduction of the assembly for H. californensis as in the study.
+The following document describes and provides the code for a reproduction of the assembly for H. californensis as in the study.The H. californensis paper [here](https://academic.oup.com/g3journal/article/11/11/jkab302/6358137) used the wtdbg2 assembler, with Arrow and Pilon polishing to generate their assembly. This was followed with HiRise scaffolding with the HiC samples. 
 
-## Assembly
+In this reproduction, we will reproduce the same draft assembly steps, followed by SALSA - to see if the same/comparable results are achieved.
 
-Uses the wtdbg2 assembler. This has been installed into the condahic environment using the following code: 
+## Running assembly and generating an index
+
+
+
+This has been installed into the condahic environment using the following code: 
 
 ```{bash, eval=FALSE}
 conda activate condahic

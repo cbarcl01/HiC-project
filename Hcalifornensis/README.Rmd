@@ -15,18 +15,22 @@ The following document describes and provides the code for a reproduction of the
 
 In this reproduction, we will reproduce the same draft assembly steps, followed by SALSA - to see if the same/comparable results are achieved.
 
-## Running assembly and generating an index
+## Running assembly and generating a consensus sequence
 
+#### 1. Prepare conda environment
 
+The draft assembly was generated with wtdbg2 assembler, Arrow and Pilon. These have been installed into an existing conda environment which already has SALSA and relevant pre-requisites installed.
 
-This has been installed into the condahic environment using the following code: 
+Install into 'condahic' environment using the following code: 
 
 ```{bash, eval=FALSE}
 conda activate condahic
 conda install -c bioconda wtdbg
+conda install -c bioconda arrow
+conda install -c bioconda pilon
 ```
 
-## Run assembly and generate consensus
+#### 2. Run assembly and generate consensus
 
 Estimate 15-30mins. Wtdbg2 has two key components: an assembler **wtdbg2** and a consenser **wtpoa-cns**. 
 
@@ -37,7 +41,7 @@ Executable wtdbg2 assembles raw reads and generates the contig layout and edge s
 ./wtpoa-cns -t 16 -i prefix.ctg.lay.gz -fo prefix.ctg.fa
 ```
 
-### Parameters 
+***Parameters*** 
 
 1. -g is the estimated genome size
 2. -x specifies the sequencing technology (value "rs" for PacBio RSII, "sq" for PacBio Sequel, "ccs" for PacBio CCS reads and "ont" for Oxford Nanopore)
@@ -65,4 +69,5 @@ pscp -P 22 C:\Users\cbarc\Documents\LAB_OriginsOfMulticellularity\Data\Hormiphor
 
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+#### 3. Create an index
+

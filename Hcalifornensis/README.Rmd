@@ -9,11 +9,11 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Positive Control
+# *Homiphora californensis* - a positive control
 
 The following document describes and provides the code for a reproduction of the assembly for H. californensis as in the study.
 
-##Assembly
+## Assembly
 
 Uses the wtdbg2 assembler. This has been installed into the condahic environment using the following code: 
 
@@ -22,18 +22,42 @@ conda activate condahic
 conda install -c bioconda wtdbg
 ```
 
-## Run assembly
+## Run assembly and generate consensus
 
-Estimate 15-30mins. 
+Estimate 15-30mins. Wtdbg2 has two key components: an assembler **wtdbg2** and a consenser **wtpoa-cns**. 
+
+Executable wtdbg2 assembles raw reads and generates the contig layout and edge sequences in a file "prefix.ctg.lay.gz". Executable wtpoa-cns takes this file as input and produces the final consensus in FASTA. A typical workflow looks like this:
+
+```{bash, eval=FALSE}
+./wtdbg2 -x rs -g 4.6m -t 16 -i reads.fa.gz -fo prefix
+./wtpoa-cns -t 16 -i prefix.ctg.lay.gz -fo prefix.ctg.fa
+```
 
 ### Parameters 
 
-Where -g is the estimated genome size and -x specifies the sequencing technology, which could take value "rs" for PacBio RSII, "sq" for PacBio Sequel, "ccs" for PacBio CCS reads and "ont" for Oxford Nanopore.
+1. -g is the estimated genome size
+2. -x specifies the sequencing technology (value "rs" for PacBio RSII, "sq" for PacBio Sequel, "ccs" for PacBio CCS reads and "ont" for Oxford Nanopore)
+3. -i indicates the reads (need to repeat -i before each file as otherwise it only uses first file provided).
 
-```{r pressure, echo=FALSE}
-#./wtdbg2 -x rs -g 4.6m -t 16 -i reads.fa.gz -fo prefix
 
-./wtdbg2 -x sq -g 156m -t 16 -i reads.fa.gz -fo prefix
+
+```{basH, eval=FALSE}
+#ASSEMBLY
+
+##wtdbg2 -x sq -g 156m -t 16 -i reads.fa.gz -fo prefix
+
+wtdbg2 -x sq -g 98m -t 16 -i SRR10237148.fasta -i SRR10237149.fasta -i SRR10237137.fasta -fo Hcaliforensis
+
+#CONSENSUS
+
+##wtpoa-cns -t 16 -i prefix.ctg.lay.gz -fo prefix.ctg.fa
+
+wtpoa-cns -t 16 -i Hcaliforensis.ctg.lay.gz -fo Hcaliforensis.ctg.fa
+
+
+pscp -P 22 C:\Users\cbarc\Documents\LAB_OriginsOfMulticellularity\Data\HormiphoraCaliforensis\*.fasta.gz cbarcl01@drake.ubc.ca:/home/cbarclay/Documents/Hcaliforensis/pacBio
+
+
 
 ```
 

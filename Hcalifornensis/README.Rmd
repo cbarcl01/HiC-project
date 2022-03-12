@@ -5,10 +5,6 @@ date: "26/01/2022"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
 # *Homiphora californensis* - a positive control
 
 The following document describes and provides the code for a reproduction of the assembly for H. californensis as in the study.The H. californensis paper [here](https://academic.oup.com/g3journal/article/11/11/jkab302/6358137) used the wtdbg2 assembler, with Arrow and Pilon polishing to generate their assembly. This was followed with HiRise scaffolding with the HiC samples. 
@@ -48,7 +44,6 @@ Executable wtdbg2 assembles raw reads and generates the contig layout and edge s
 3. -i indicates the reads (need to repeat -i before each file as otherwise it only uses first file provided).
 
 
-
 ```{basH, eval=FALSE}
 #ASSEMBLY
 
@@ -65,9 +60,18 @@ wtpoa-cns -t 16 -i Hcaliforensis.ctg.lay.gz -fo Hcaliforensis.ctg.fa
 
 pscp -P 22 C:\Users\cbarc\Documents\LAB_OriginsOfMulticellularity\Data\HormiphoraCaliforensis\*.fasta.gz cbarcl01@drake.ubc.ca:/home/cbarclay/Documents/Hcaliforensis/pacBio
 
+pscp -P 22 C:\Users\cbarc\Documents\LAB_OriginsOfMulticellularity\Data\HormiphoraCaliforensis\HiC\*.fasta.gz cbarcl01@drake.ubc.ca:/home/cbarclay/Documents/Hcaliforensis/data
 
+pscp -P 22 cbarclay@drake.phas.ubc.ca:/home/cbarclay/Documents/Mleidyi/workflow/scaffolds/salsa_scaffolds.hic C:\Users\cbarc\Documents\LAB_OriginsOfMulticellularity\Data\MyData
 
 ```
 
 #### 3. Create an index
 
+```{bash eval=FALSE}
+bowtie2-build /home/cbarclay/Documents/Hcaliforensis/pacBio/Hcaliforensis.ctg.fasta /home/cbarclay/Documents/Hcaliforensis/index
+```
+
+```{bash, eval=FALSE}
+bowtie2 -f -x /home/cbarclay/Documents/Hcaliforensis/index/index.fai \ -1 /home/cbarclay/Documents/Hcaliforensis/data/SRR10237146.fasta \ -2 /home/cbarclay/Documents/Hcaliforensis/data/SRR10237147.fasta \ -S /home/cbarclay/Documents/Hcaliforensis/data/hcal_hic.sam
+```
